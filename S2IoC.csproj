@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Sebastian Sejud</Authors>
+    <Company>Sebastian Sejud IT</Company>
+    <Description>Lightweight IoC container which allows additional parameters/services injection while constructing object.</Description>
+  </PropertyGroup>
+
+</Project>
