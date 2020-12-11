@@ -2,9 +2,8 @@
 
 namespace S2IoC
 {
-    public interface IServicesProvider
+    public interface IServicesProvider: IServiceProvider
     {
-        object GetService(Type serviceType);
         TService GetService<TService>();
         bool TryResolveInstance(Type type, out object instance);
         bool TryResolveInstance<TType>(out TType instance);
