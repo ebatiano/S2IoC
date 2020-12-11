@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace S2IoC
 {
-    public class ScopeBuilder : IScopeBuilder
+    public class ScopeBuilder : IScopeBuilder, IServicesProvider
     {
         public class Registration
         {
@@ -31,12 +31,24 @@ namespace S2IoC
 
         private readonly List<Registration> registrations = new List<Registration>();
 
-        private IServicesProvider parentServiceProvider;
+        private readonly ServicesProvider servicesProvider = new ServicesProvider();
+        private readonly ObjectFactory objectFactory = new ObjectFactory();
+        private readonly AbstractTypeMapping abstractTypeMapping = new AbstractTypeMapping();
+
         private bool builded = false;
+
+        public ScopeBuilder()
+        {
+            servicesProvider.ObjectFactory = objectFactory;
+            servicesProvider.TypeMapping = abstractTypeMapping;
+            objectFactory.ServicesProvider = servicesProvider;
+            objectFactory.TypeMapping = abstractTypeMapping;
+        }
 
         public ScopeBuilder WithParent(IServicesProvider serviceProvider)
         {
-            parentServiceProvider = serviceProvider;
+            servicesProvider.Parent = servicesProvider;
+            abstractTypeMapping.Parent = serviceProvider.GetService<IAbstractTypeMapping>();
             return this;
         }
 
@@ -92,19 +104,19 @@ namespace S2IoC
 
         public IServicesProvider Build()
         {
-            var typesMapping = new Dictionary<Type, Type>();
-
             foreach (var reg in registrations)
             {
                 if (reg.Type != null)
                 {
                     foreach (var type in reg.ResolutionTypes)
                     {
-                        typesMapping.Add(type, reg.Type);
+                        abstractTypeMapping.AddMapping(type, reg.Type);
                     }
                 }
             }
-            var servicesContainer = new ServiceContainer(parentServiceProvider, typesMapping);
+
+            servicesProvider.RegisterInstance(typeof(IObjectFactory), objectFactory);
+            servicesProvider.RegisterInstance(typeof(IAbstractTypeMapping), abstractTypeMapping);
 
             foreach (var reg in registrations)
             {
@@ -112,18 +124,17 @@ namespace S2IoC
                 {
                     foreach (var type in reg.ResolutionTypes)
                     {
-                        if (!TryRegisterInstance(servicesContainer, type)) throw new Exception();
+                        if (!TryRegisterInstance(type)) throw new Exception();
                     }
                 }
             }
 
             builded = true;
-            return servicesContainer;
+            return servicesProvider;
         }
 
 
-
-        private bool TryRegisterInstance(ServiceContainer container, Type serviceType)
+        private bool TryRegisterInstance(Type serviceType)
         {
             if (builded) throw new InvalidOperationException();
 
@@ -132,7 +143,7 @@ namespace S2IoC
                 return false;
             }
 
-            if (container.TryResolveInstance(serviceType, out var service) && service != null)
+            if (servicesProvider.TryResolveInstance(serviceType, out var service) && service != null)
             {
                 return true;
             }
@@ -143,17 +154,17 @@ namespace S2IoC
                 {
                     if (reg.Instance != null)
                     {
-                        container.RegisterInstance(serviceType, reg.Instance);
+                        servicesProvider.RegisterInstance(serviceType, reg.Instance);
                         return true;
                     }
 
                     if (reg.Type != null)
                     {
-                        service = DynamicActivator.Create(reg.Type, container);
+                        service = DynamicActivator.Create(reg.Type, this);
 
                         foreach (var type in reg.ResolutionTypes)
                         {
-                            container.RegisterInstance(type, service);
+                            servicesProvider.RegisterInstance(type, service);
                         }
                         return true;
                     }
@@ -169,5 +180,33 @@ namespace S2IoC
         IScopeBuilder IScopeBuilder.AsSingleton() => AsSingleton();
         IScopeBuilder IScopeBuilder.AsSelf() => AsSelf();
         IScopeBuilder IScopeBuilder.WithInstance(object instance) => WithInstance(instance);
+
+        public object GetService(Type serviceType)
+        {
+            throw new NotSupportedException();
+        }
+
+        public TService GetService<TService>()
+        {
+            throw new NotSupportedException();
+        }
+
+        public bool TryResolveInstance(Type type, out object instance)
+        {
+            if (servicesProvider.TryResolveInstance(type, out instance)) return true;
+
+            if(TryRegisterInstance(type))
+            {
+                instance = servicesProvider.GetService(type);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool TryResolveInstance<TType>(out TType instance)
+        {
+            throw new NotSupportedException();
+        }
     }
 }
