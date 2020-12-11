@@ -45,10 +45,10 @@ namespace S2IoC
             objectFactory.TypeMapping = abstractTypeMapping;
         }
 
-        public ScopeBuilder WithParent(IServicesProvider serviceProvider)
+        public ScopeBuilder WithParent(IServicesProvider parent)
         {
-            servicesProvider.Parent = servicesProvider;
-            abstractTypeMapping.Parent = serviceProvider.GetService<IAbstractTypeMapping>();
+            servicesProvider.Parent = parent;
+            abstractTypeMapping.Parent = parent.GetService<IAbstractTypeMapping>();
             return this;
         }
 
