@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace S2IoC
+namespace XxIoC
 {
     internal class AbstractTypeMapping : IAbstractTypeMapping
     {

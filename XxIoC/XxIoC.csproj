@@ -8,7 +8,7 @@
     <Authors>Sebastian Sejud</Authors>
     <Company>Sebastian Sejud IT</Company>
     <Description>Lightweight IoC container which allows additional parameters/services injection while constructing object.</Description>
-    <RepositoryUrl>https://github.com/ebatiano/S2IoC</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ebatiano/XxIoC</RepositoryUrl>
   </PropertyGroup>
 
 </Project>

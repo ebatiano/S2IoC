@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace S2IoC
+namespace XxIoC
 {
     public interface IServicesProvider: IServiceProvider
     {

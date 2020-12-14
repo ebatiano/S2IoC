@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace S2IoC
+namespace XxIoC
 {
     public class ScopeBuilder : IScopeBuilder, IServicesProvider
     {

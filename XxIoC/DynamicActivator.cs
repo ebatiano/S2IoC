@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace S2IoC
+namespace XxIoC
 {
     public static class DynamicActivator
     {
