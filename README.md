@@ -84,6 +84,18 @@ var myClass = factory.Create<MyClass>(new MyClass.Parameters
 	Value = 10
 });
 ````
+Built in types can also be passed, but remember, that parameter type matching algorithm will match first parameter of desired type, so if you write something like:
+````
+public MyClass(int firstValue, int secondValue)
+{
+}
+
+[...]
+
+var myClass = factory.Create<MyClass>(5,10);
+````
+
+`firstValue` and `secondValue` will have value of 5, because 5 is first `int` passed as parameter. That's why it is advised to create construction parameters class like in previous example.
 
 ## Creating new scope
 When you want to create a new scope which extends current one, just use `WithParent` method on new `ScopeBuilder`:
