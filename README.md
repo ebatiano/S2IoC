@@ -8,9 +8,9 @@ To create new service container, `ScopeBuilder` class is used. Then you just nee
 ScopeBuilder sb = new ScopeBuilder();
 
 sb
-	.WithInstance(new TestImplementation()).As<ITest>().As<ITestEx>() 	// Register instance as specific services.
-	.WithType<FontService>().As<IFontService>().AsSingleton() 	// Register type as specific service(s).
-	.WithType<MyFont>().As<IFont>(); 	// Register type as implementation of some abstract type.
+  .WithInstance(new TestImplementation()).As<ITest>().As<ITestEx>() 	// Register instance as specific services.
+  .WithType<FontService>().As<IFontService>().AsSingleton() 	// Register type as specific service(s).
+  .WithType<MyFont>().As<IFont>(); 	// Register type as implementation of some abstract type.
 
 IServicesProvider provider = sb.Build(); // Build scope and get services provider.
 ````
@@ -89,7 +89,7 @@ var myClass = factory.Create<MyClass>(new MyClass.Parameters
 When you want to create a new scope which extends current one, just use `WithParent` method on new `ScopeBuilder`:
 ````
 var sb = new ScopeBuilder()
-				.WithParent(provider);
+		.WithParent(provider);
 				
 // Register your scope services and types.
 sb.WithType<MyType>().As<IType>().AsSingleton();
