@@ -1,6 +1,6 @@
 # XxIoC
 
-**XxIoC** is a lightweight IoC solution providing Service Provider ans Objects Factory for your .NET projects.
+**XxIoC** is a lightweight IoC solution for Service Provider ans Objects Factory for your .NET projects.
 
 ## Initialization
 To create new service container, `ScopeBuilder` class is used. Then you just need to register your services and instance types.
