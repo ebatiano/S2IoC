@@ -2,7 +2,7 @@
 
 namespace XxIoC
 {
-    public interface IServicesProvider: IServiceProvider
+    public interface IServicesProvider: IServiceProvider, IDisposable
     {
         TService GetService<TService>();
         bool TryResolveInstance(Type type, out object instance);

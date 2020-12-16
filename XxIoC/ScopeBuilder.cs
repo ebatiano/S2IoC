@@ -208,5 +208,10 @@ namespace XxIoC
         {
             throw new NotSupportedException();
         }
+
+        public void Dispose()
+        {
+            throw new NotSupportedException();
+        }
     }
 }

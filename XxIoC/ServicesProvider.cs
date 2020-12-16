@@ -57,6 +57,16 @@ namespace XxIoC
             return false;
         }
 
-        
+        public void Dispose()
+        {
+            foreach(var instance in instances)
+            {
+                if(instance.Value is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+            }
+            instances.Clear();
+        }
     }
 }
