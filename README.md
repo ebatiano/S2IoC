@@ -24,12 +24,12 @@ var service2 = provider.GetService<IService>(); // returns exact type
 ````
 There is also possibility to try to get service without exception on failure:
 ````C#
-if(provider.TryResolveInstance(typeof(IService), out object instance))
+if (provider.TryResolveInstance(typeof(IService), out object instance))
 {
 	this.myService = (IService)instance;
 }
 
-if(provider.TryResolveInstance<IService>(out var service))
+if (provider.TryResolveInstance<IService>(out var service))
 {
 	this.myService = service;
 }
