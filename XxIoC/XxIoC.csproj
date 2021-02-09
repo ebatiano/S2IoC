@@ -9,7 +9,7 @@
     <Company>Sebastian Sejud IT</Company>
     <Description>Lightweight IoC container which allows additional parameters/services injection while constructing object.</Description>
     <RepositoryUrl>https://github.com/ebatiano/XxIoC</RepositoryUrl>
-    <Version>1.0.1</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
 </Project>

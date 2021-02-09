@@ -41,6 +41,18 @@ namespace XxIoC
                 return true;
             }
 
+            if (type == typeof(IObjectFactory))
+            {
+                instance = ObjectFactory;
+                return true;
+            }
+
+            if (type == typeof(IAbstractTypeMapping))
+            {
+                instance = TypeMapping;
+                return true;
+            }
+
             if (instances.TryGetValue(type, out instance)) return true;
             if (Parent != null && Parent.TryResolveInstance(type, out instance)) return true;
             return false;

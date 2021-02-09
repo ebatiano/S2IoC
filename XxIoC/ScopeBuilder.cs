@@ -183,12 +183,14 @@ namespace XxIoC
 
         public object GetService(Type serviceType)
         {
-            throw new NotSupportedException();
+            if (TryResolveInstance(serviceType, out var instance)) return instance;
+            throw new KeyNotFoundException();
         }
 
         public TService GetService<TService>()
         {
-            throw new NotSupportedException();
+            if (TryResolveInstance<TService>(out var instance)) return instance;
+            throw new KeyNotFoundException();
         }
 
         public bool TryResolveInstance(Type type, out object instance)
@@ -206,7 +208,13 @@ namespace XxIoC
 
         public bool TryResolveInstance<TType>(out TType instance)
         {
-            throw new NotSupportedException();
+            instance = default;
+            if (TryResolveInstance(typeof(TType), out var instanceObj))
+            {
+                instance = (TType)instanceObj;
+                return true;
+            }
+            return false;
         }
 
         public void Dispose()
