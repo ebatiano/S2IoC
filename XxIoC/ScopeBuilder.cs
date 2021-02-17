@@ -219,7 +219,6 @@ namespace XxIoC
 
         public void Dispose()
         {
-            throw new NotSupportedException();
         }
     }
 }
